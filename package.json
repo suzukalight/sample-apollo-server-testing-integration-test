@@ -5,6 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "setup:env": "node -e \"require('fs').copyFileSync('./.env.default', './.env')\"",
     "dev": "ts-node-dev ./src/index.ts",
     "codegen": "graphql-codegen --config src/schema/codegen.yml",
     "fix": "run-s typecheck lint format",
