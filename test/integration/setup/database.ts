@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 
 import { User } from '../../../src/repository/typeorm/user/entity/User';
+import { AuthEmailPassword } from '../../../src/repository/typeorm/auth/entity/AuthEmailPassword';
 import { seedAll } from '../../../src/infrastructure/typeorm/seeder/seedAll';
 
 // ランダムなDB名を生成
@@ -15,7 +16,7 @@ export const createDbConnection = async (randomDbPath: string) =>
     type: 'sqlite',
     name: randomDbPath,
     database: randomDbPath,
-    entities: [User],
+    entities: [User, AuthEmailPassword],
     synchronize: true,
   });
 
