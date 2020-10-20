@@ -13,35 +13,33 @@ import { resolvers } from '../../../src/infrastructure/apollo-server/resolvers';
 
 dotenv.config();
 
-const getContext = async (dbConnection: Connection, actor?: UserDto) => {
-  if (!actor) return { dbConnection, actor: null };
+const getContext = async (dbConnection: Connection, actor?: UserDto) => ({
+  dbConnection,
+  actor: actor ? new UserEntity(actor) : null,
+});
 
-  return {
-    dbConnection,
-    actor: new UserEntity(actor),
-  };
-};
-
-export const createApolloServerForTesting = async (
+export const createApolloServerForTesting = (
   dbConnection: Connection,
   actor?: UserDto,
-): Promise<ApolloServerTestClient> => {
-  // Configure GraphQL Server
+): ApolloServerTestClient => {
+  // graphql-codegen でバンドルしたスキーマファイルを使用
   const schema = loadSchemaSync(path.join(__dirname, '../../../src/schema/schema.graphql'), {
     loaders: [new GraphQLFileLoader()],
   });
+
+  // resolverをスキーマと連結
   const schemaWithResolvers = addResolversToSchema({
     schema,
     resolvers,
   });
 
-  // Create GraphQL Server and Apply to Express
+  // ApolloServerでGraphQLサーバを起動
   const server = new ApolloServer({
     schema: schemaWithResolvers,
     context: () => getContext(dbConnection, actor),
   });
 
-  // Create GraphQL Client for Testing
+  // テスト用のGraphQLクライアントを生成
   const testClient = createTestClient(server);
   return testClient;
 };

@@ -1,7 +1,13 @@
 import { ApolloServerTestClient } from 'apollo-server-testing';
 import { gql } from 'apollo-server-express';
 
-import { SqliteDbConnection } from '../../setup/database';
+import {
+  createDbConnection,
+  Connection,
+  getRandomDbPath,
+  seedAll,
+  deleteDbFile,
+} from '../../setup/database';
 import { createApolloServerForTesting } from '../../setup/apollo-server';
 import { RoleTypes } from '../../../../src/entity/common/Role';
 
@@ -18,18 +24,20 @@ const DELETE_USER = gql`
 
 describe('deleteUser', () => {
   describe('Admin', () => {
-    const actor = { id: '1', email: 'admin@email.com', roles: [RoleTypes.Admin] };
-    const sqliteDbConnection = new SqliteDbConnection();
+    const actor = { id: '1', email: 'admin@email.com', roles: [RoleTypes.Admin] }; // Adminロールのactor
+    const randomDbPath = getRandomDbPath(); // テストごとに固有のファイルを作成
+    let dbConnection: Connection;
     let testClient: ApolloServerTestClient | undefined;
 
     beforeAll(async () => {
-      const connection = await sqliteDbConnection.connect();
-      testClient = await createApolloServerForTesting(connection, actor);
-      await sqliteDbConnection.seedAll();
+      dbConnection = await createDbConnection(randomDbPath); // DBの作成とマイグレーション
+      await seedAll(dbConnection); // UserをDBに流し込む
+      testClient = createApolloServerForTesting(dbConnection, actor); // Adminをactorとしてサーバを起動
     });
 
     afterAll(async () => {
-      await sqliteDbConnection.dispose();
+      await dbConnection.close();
+      deleteDbFile(randomDbPath); // DBファイルを削除し、テストごとにDBを破棄
     });
 
     test('OK: Adminロールで、エンティティの削除ができた', async () => {
@@ -79,17 +87,19 @@ describe('deleteUser', () => {
 
   describe('Member', () => {
     const actor = { id: '2', email: 'member@email.com', roles: [RoleTypes.Member] };
-    const sqliteDbConnection = new SqliteDbConnection();
+    const randomDbPath = getRandomDbPath();
+    let dbConnection: Connection;
     let testClient: ApolloServerTestClient | undefined;
 
     beforeAll(async () => {
-      const connection = await sqliteDbConnection.connect();
-      testClient = await createApolloServerForTesting(connection, actor);
-      await sqliteDbConnection.seedAll();
+      dbConnection = await createDbConnection(randomDbPath);
+      testClient = await createApolloServerForTesting(dbConnection, actor);
+      await seedAll(dbConnection);
     });
 
     afterAll(async () => {
-      await sqliteDbConnection.dispose();
+      await dbConnection.close();
+      deleteDbFile(randomDbPath);
     });
 
     test('OK: 自身の削除ができた', async () => {

@@ -6,8 +6,10 @@ import fs from 'fs';
 import { User } from '../../../src/repository/typeorm/user/entity/User';
 import { seedAll } from '../../../src/infrastructure/typeorm/seeder/seedAll';
 
+// ランダムなDB名を生成
 export const getRandomDbPath = () => `./test_db/${uuidv4()}.sqlite`;
 
+// 各テストごとに独立したDBを作成し、テストの独立性を担保する
 export const createDbConnection = async (randomDbPath: string) =>
   createConnection({
     type: 'sqlite',
@@ -15,51 +17,11 @@ export const createDbConnection = async (randomDbPath: string) =>
     database: randomDbPath,
     entities: [User],
     synchronize: true,
-    logging: false,
   });
 
+// DBファイルを削除
 export const deleteDbFile = (dbPath: string) => {
   fs.unlinkSync(dbPath);
 };
 
-export class SqliteDbConnection {
-  private path: string;
-  private connection: Connection | null;
-
-  constructor(path?: string) {
-    this.path = path ?? getRandomDbPath();
-  }
-
-  getDbPath() {
-    return this.path;
-  }
-
-  getConnection() {
-    return this.connection;
-  }
-
-  setDbPath(path: string) {
-    this.path = path;
-  }
-
-  async connect() {
-    this.connection = await createDbConnection(this.path);
-    if (!this.connection) throw new Error('SQLite DB への接続に失敗しました');
-
-    return this.connection!;
-  }
-
-  async disconnect() {
-    this.connection?.close();
-  }
-
-  async dispose() {
-    await this.disconnect();
-    if (this.path !== ':memory:') deleteDbFile(this.path);
-  }
-
-  async seedAll() {
-    if (!this.connection) return;
-    await seedAll(this.connection);
-  }
-}
+export { Connection, seedAll };
