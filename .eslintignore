@@ -4,7 +4,7 @@
 /lint-staged.config.js
 node_modules/**
 **/node_modules/**
-src/schema/src/types.ts
+src/schema/types.ts
 **/migration/*
 **/lib/*
 **/build/*

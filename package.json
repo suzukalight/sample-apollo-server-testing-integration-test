@@ -5,7 +5,32 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "codegen": "graphql-codegen --config src/schema/codegen.yml"
+    "dev": "ts-node-dev ./src/index.ts",
+    "codegen": "graphql-codegen --config src/schema/codegen.yml",
+    "fix": "run-s typecheck lint format",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --fix ./src",
+    "format": "prettier --write -l \"./src/**/*.{js,ts,graphql}\"",
+    "test": "env-cmd -f .env.default jest"
+  },
+  "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^6.0.16",
+    "@graphql-tools/load": "^6.0.16",
+    "@graphql-tools/schema": "^6.0.16",
+    "apollo-server": "^2.18.2",
+    "apollo-server-express": "^2.18.2",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.3.0",
+    "graphql-scalars": "^1.2.6",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.0",
+    "typeorm": "^0.2.25",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.17.7",
@@ -18,9 +43,17 @@
     "@graphql-codegen/typescript-operations": "^1.17.7",
     "@graphql-codegen/typescript-react-apollo": "^2.0.5",
     "@graphql-codegen/typescript-resolvers": "^1.17.7",
+    "@types/bcrypt": "^3.0.0",
+    "@types/bluebird": "^3.5.32",
+    "@types/graphql-resolvers": "^0.3.0",
     "@types/jest": "^26.0.9",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.0.27",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
+    "apollo-server-testing": "^2.18.2",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-react": "^7.20.6",
@@ -32,6 +65,8 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.1.4",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.56",
     "typescript": "^3.9.7"
   }
 }
