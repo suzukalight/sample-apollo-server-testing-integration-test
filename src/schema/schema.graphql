@@ -33,8 +33,30 @@ type DeleteUserResponse {
 type Mutation {
   createUser(input: CreateUserRequest): CreateUserResponse
   deleteUser(input: DeleteUserRequest): DeleteUserResponse
+  signInEmailPassword(input: SignInEmailPasswordRequest): SignInEmailPasswordResponse
+  signUpEmailPassword(input: SignUpEmailPasswordRequest): SignUpEmailPasswordResponse
 }
 
 type Query {
   user(id: ID!): User
+}
+
+input SignUpEmailPasswordRequest {
+  email: String!
+  password: String!
+}
+
+type SignUpEmailPasswordResponse {
+  user: User
+  token: String!
+}
+
+input SignInEmailPasswordRequest {
+  email: String!
+  password: String!
+}
+
+type SignInEmailPasswordResponse {
+  user: User
+  token: String!
 }

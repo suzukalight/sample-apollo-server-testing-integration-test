@@ -50,6 +50,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<CreateUserResponse>;
   deleteUser?: Maybe<DeleteUserResponse>;
+  signInEmailPassword?: Maybe<SignInEmailPasswordResponse>;
+  signUpEmailPassword?: Maybe<SignUpEmailPasswordResponse>;
 };
 
 
@@ -62,6 +64,16 @@ export type MutationDeleteUserArgs = {
   input?: Maybe<DeleteUserRequest>;
 };
 
+
+export type MutationSignInEmailPasswordArgs = {
+  input?: Maybe<SignInEmailPasswordRequest>;
+};
+
+
+export type MutationSignUpEmailPasswordArgs = {
+  input?: Maybe<SignUpEmailPasswordRequest>;
+};
+
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
@@ -70,6 +82,28 @@ export type Query = {
 
 export type QueryUserArgs = {
   id: Scalars['ID'];
+};
+
+export type SignUpEmailPasswordRequest = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type SignUpEmailPasswordResponse = {
+  __typename?: 'SignUpEmailPasswordResponse';
+  user?: Maybe<User>;
+  token: Scalars['String'];
+};
+
+export type SignInEmailPasswordRequest = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type SignInEmailPasswordResponse = {
+  __typename?: 'SignInEmailPasswordResponse';
+  user?: Maybe<User>;
+  token: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -162,6 +196,10 @@ export type ResolversTypes = ResolversObject<{
   DeleteUserResponse: ResolverTypeWrapper<DeleteUserResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SignUpEmailPasswordRequest: SignUpEmailPasswordRequest;
+  SignUpEmailPasswordResponse: ResolverTypeWrapper<SignUpEmailPasswordResponse>;
+  SignInEmailPasswordRequest: SignInEmailPasswordRequest;
+  SignInEmailPasswordResponse: ResolverTypeWrapper<SignInEmailPasswordResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
@@ -177,6 +215,10 @@ export type ResolversParentTypes = ResolversObject<{
   DeleteUserResponse: DeleteUserResponse;
   Mutation: {};
   Query: {};
+  SignUpEmailPasswordRequest: SignUpEmailPasswordRequest;
+  SignUpEmailPasswordResponse: SignUpEmailPasswordResponse;
+  SignInEmailPasswordRequest: SignInEmailPasswordRequest;
+  SignInEmailPasswordResponse: SignInEmailPasswordResponse;
   Boolean: Scalars['Boolean'];
 }>;
 
@@ -206,10 +248,24 @@ export type DeleteUserResponseResolvers<ContextType = any, ParentType extends Re
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserResponse']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, never>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['DeleteUserResponse']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, never>>;
+  signInEmailPassword?: Resolver<Maybe<ResolversTypes['SignInEmailPasswordResponse']>, ParentType, ContextType, RequireFields<MutationSignInEmailPasswordArgs, never>>;
+  signUpEmailPassword?: Resolver<Maybe<ResolversTypes['SignUpEmailPasswordResponse']>, ParentType, ContextType, RequireFields<MutationSignUpEmailPasswordArgs, never>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+}>;
+
+export type SignUpEmailPasswordResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignUpEmailPasswordResponse'] = ResolversParentTypes['SignUpEmailPasswordResponse']> = ResolversObject<{
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SignInEmailPasswordResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInEmailPasswordResponse'] = ResolversParentTypes['SignInEmailPasswordResponse']> = ResolversObject<{
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
@@ -219,6 +275,8 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   DeleteUserResponse?: DeleteUserResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SignUpEmailPasswordResponse?: SignUpEmailPasswordResponseResolvers<ContextType>;
+  SignInEmailPasswordResponse?: SignInEmailPasswordResponseResolvers<ContextType>;
 }>;
 
 
