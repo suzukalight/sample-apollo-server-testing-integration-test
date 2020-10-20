@@ -1,0 +1,40 @@
+enum Role {
+  ADMIN
+  ANONYMOUS
+  MEMBER
+}
+
+type User {
+  createdAt: DateTime
+  email: String!
+  id: ID!
+  roles: [Role!]!
+  updatedAt: DateTime
+}
+
+scalar DateTime
+
+input CreateUserRequest {
+  email: String!
+}
+
+type CreateUserResponse {
+  user: User
+}
+
+input DeleteUserRequest {
+  id: ID!
+}
+
+type DeleteUserResponse {
+  user: User!
+}
+
+type Mutation {
+  createUser(input: CreateUserRequest): CreateUserResponse
+  deleteUser(input: DeleteUserRequest): DeleteUserResponse
+}
+
+type Query {
+  user(id: ID!): User
+}
