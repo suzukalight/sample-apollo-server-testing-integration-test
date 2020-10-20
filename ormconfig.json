@@ -1,0 +1,11 @@
+{
+  "type": "sqlite",
+  "database": "./db.sqlite",
+  "synchronize": false,
+  "logging": false,
+  "entities": ["./src/repository/typeorm/**/entity/*.ts"],
+  "migrations": ["./src/infrastructure/typeorm/migration/**/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/infrastructure/typeorm/migration"
+  }
+}
