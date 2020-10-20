@@ -1,0 +1,20 @@
+input CreateUserRequest {
+  email: String!
+}
+
+type CreateUserResponse {
+  user: User
+}
+
+input DeleteUserRequest {
+  id: ID!
+}
+
+type DeleteUserResponse {
+  user: User!
+}
+
+type Mutation {
+  createUser(input: CreateUserRequest): CreateUserResponse
+  deleteUser(input: DeleteUserRequest): DeleteUserResponse
+}
