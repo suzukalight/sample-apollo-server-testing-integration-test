@@ -2,13 +2,14 @@
 
 apollo-server で GraphQL バックエンド開発をしている際の、統合テスト（Integration Testing）を行うための手法として、apollo-server-testing と sqlite を用いるサンプルです。
 
-現在、deleteUser mutation のみを実装してあります。ほかのquery/mutation実装については、このサンプルの元になっている以下のリポジトリを参照願います；
+技術の詳細については、こちらの記事で解説しています；  
+https://zenn.dev/suzukalight/articles/apollo-server-testing-sqlite
 
-- https://github.com/suzukalight/clean-architecture-nodejs-graphql-codegen
+現在、deleteUser mutation のみを実装してあります。ほかのquery/mutation実装については、このサンプルの元になっている以下のリポジトリを参照願います；  
+https://github.com/suzukalight/clean-architecture-nodejs-graphql-codegen
 
-実践用に、下記のブランチにて、signInEmailPassword mutation を実装しています。こちらの統合テストを test/integration ディレクトリに実装いただくハンズオンが可能です；
-
-- https://github.com/suzukalight/sample-apollo-server-testing-integration-test/pull/1
+実践用に、下記のブランチにて、signInEmailPassword mutation を実装しています。こちらの統合テストを test/integration ディレクトリに実装いただくハンズオンが可能です；  
+https://github.com/suzukalight/sample-apollo-server-testing-integration-test/pull/1
 
 # 概要
 
@@ -38,8 +39,8 @@ typecheck, lint, prettier, jest を実行できます。
 # development
 
 ```
-yarn db:seed
 yarn dev
+yarn db:seed
 ```
 
 http://localhost:3000/graphql にて mutation の実行が可能です。
